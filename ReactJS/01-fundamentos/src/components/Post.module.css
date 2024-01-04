@@ -73,12 +73,12 @@
   border-top: 1px solid var(--gray-600);
 }
 
-.commentForm footer{
+.commentForm footer {
   visibility: hidden;
   max-height: 0;
 }
 
-.commentForm:focus-within footer{
+.commentForm:focus-within footer {
   visibility: visible;
   max-height: none;
 }
@@ -115,4 +115,8 @@
 
 .commentForm button[type="submit"]:hover {
   background: var(--green-300);
+}
+
+.commentList {
+  margin-top: 2rem;
 }
