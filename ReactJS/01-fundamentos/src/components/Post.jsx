@@ -27,11 +27,26 @@ export function Post() {
 
       <div className={styles.content}>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-        
-        <p>Aut unde dolores voluptate iusto. Soluta similique, quisquam molestias fugiat ducimus reiciendis vero exercitationem commodi fugit quas, beatae, ab </p>voluptas consectetur ipsum cum unde repellat.
-        
-        <p>Soluta ratione nulla voluptate maiores. Quo iusto ullam neque ad quidem minima voluptates animi fuga accusamus fugiat!</p>
+        <p>
+          Aut unde dolores voluptate iusto. Soluta similique, quisquam molestias
+          fugiat ducimus reiciendis vero exercitationem commodi fugit quas,
+          beatae, ab{" "}
+        </p>
+        voluptas consectetur ipsum cum unde repellat.
+        <p>
+          Soluta ratione nulla voluptate maiores. Quo iusto ullam neque ad
+          quidem minima voluptates animi fuga accusamus fugiat!
+        </p>
       </div>
+
+      <form className={styles.commentForm}>
+        <strong>Deixe sue feedback</strong>
+        <textarea placeholder="Deixe um comentário" />
+
+        <footer>
+          <button type="submit">Publicar</button>
+        </footer>
+      </form>
     </article>
   );
 }
