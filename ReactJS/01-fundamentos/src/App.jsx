@@ -5,6 +5,64 @@ import { Sidebar } from "./components/Sidebar";
 import styles from "./App.module.css";
 import "./global.css";
 
+// author: {avatar_url: "", name: "", role: ""}
+// publishedAt: Date
+// content: String
+
+const posts = [
+  {
+    id: 1,
+    author: {
+      avatarUrl: "https://github.com/yamatopotter.png",
+      name: "Matheus Barreto",
+      role: "Web Developer",
+    },
+    content: [
+      {
+        type: "paragraph",
+        content:
+          "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Praesentium, voluptatibus.",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam eius sapiente maiores. Nihil expedita et incidunt doloremque consequatur magni eveniet.",
+      },
+      {
+        type: "link",
+        content: "https://github.com/yamatopotter",
+      },
+    ],
+    publishedAt: new Date("2024-01-04 20:05:05"),
+  },
+
+  {
+    id: 2,
+    author: {
+      avatarUrl: "https://github.com/yamatopotter.png",
+      name: "Matheus Barreto",
+      role: "Web Developer",
+    },
+    content: [
+      {
+        type: "paragraph",
+        content:
+          "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Praesentium, voluptatibus.",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam eius sapiente maiores. Nihil expedita et incidunt doloremque consequatur magni eveniet.",
+      },
+      {
+        type: "link",
+        content: "https://github.com/yamatopotter",
+      },
+    ],
+    publishedAt: new Date("2024-01-04 20:05:05"),
+  },
+];
+
 export function App() {
   return (
     <div>
@@ -13,14 +71,13 @@ export function App() {
         <Sidebar />
 
         <main>
-          <Post
-            author="Matheus Barreto"
-            content="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, quo?"
-          />
-          <Post
-            author="Sunday"
-            content="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, quo?"
-          />
+          {posts.map(post => {
+            return <Post 
+              author={post.author}
+              content={post.content}
+              publishedAt={post.publishedAt}
+            />
+          })}
         </main>
       </div>
     </div>
