@@ -6,11 +6,16 @@ import { Dashboard } from '@/pages/app/dashboard.tsx'
 import { SignIn } from '@/pages/auth/sign-in.tsx'
 import { SignUp } from '@/pages/auth/sign-up.tsx'
 
+import { Orders } from './pages/app/orders/orders'
+
 export const router = createBrowserRouter([
   {
     path: '/',
     element: <AppLayout />,
-    children: [{ path: '/', element: <Dashboard /> }],
+    children: [
+      { path: '/', element: <Dashboard /> },
+      { path: '/orders', element: <Orders /> },
+    ],
   },
 
   {
