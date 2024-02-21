@@ -16,7 +16,7 @@ export interface GetOrderDetailsResponse {
   }
   orderItems: {
     id: string
-    princeInCents: number
+    priceInCents: number
     quantity: number
     product: {
       name: string

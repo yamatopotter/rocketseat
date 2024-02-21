@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card.tsx'
+import { MetricCardSkeleton } from '@/pages/app/dashboard/metric-card-skeleton.tsx'
 
 export function MonthOrdersAmountCard() {
   const { data: monthOrdersAmount } = useQuery({
@@ -26,29 +27,33 @@ export function MonthOrdersAmountCard() {
         <Utensils className={'h-4 w-4 text-muted-foreground'} />
       </CardHeader>
 
-      {monthOrdersAmount && (
-        <CardContent className={'space-y-1'}>
-          <span className={'text-2xl font-bold tracking-tight'}>
-            {monthOrdersAmount.amount}
-          </span>
+      <CardContent className={'space-y-1'}>
+        {monthOrdersAmount ? (
+          <>
+            <span className={'text-2xl font-bold tracking-tight'}>
+              {monthOrdersAmount.amount}
+            </span>
 
-          {monthOrdersAmount.diffFromLastMonth >= 0 ? (
-            <p className={'text-xs text-muted-foreground'}>
-              <span className={'text-emerald-500 dark:text-emerald-400'}>
-                +{monthOrdersAmount.diffFromLastMonth}%
-              </span>{' '}
-              em relação ao mês passado
-            </p>
-          ) : (
-            <p className={'text-xs text-muted-foreground'}>
-              <span className={'text-rose-500 dark:text-rose-400'}>
-                {monthOrdersAmount.diffFromLastMonth}%
-              </span>{' '}
-              em relação ao mês passado
-            </p>
-          )}
-        </CardContent>
-      )}
+            {monthOrdersAmount.diffFromLastMonth >= 0 ? (
+              <p className={'text-xs text-muted-foreground'}>
+                <span className={'text-emerald-500 dark:text-emerald-400'}>
+                  +{monthOrdersAmount.diffFromLastMonth}%
+                </span>{' '}
+                em relação ao mês passado
+              </p>
+            ) : (
+              <p className={'text-xs text-muted-foreground'}>
+                <span className={'text-rose-500 dark:text-rose-400'}>
+                  {monthOrdersAmount.diffFromLastMonth}%
+                </span>{' '}
+                em relação ao mês passado
+              </p>
+            )}
+          </>
+        ) : (
+          <MetricCardSkeleton />
+        )}
+      </CardContent>
     </Card>
   )
 }

@@ -19,6 +19,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table.tsx'
+import { OrderDetailsSkeleton } from '@/pages/app/orders/order-details-skeleton.tsx'
 
 export interface OrderDetailsProps {
   orderId: string
@@ -39,7 +40,7 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
         <DialogDescription>Detalhes do Pedido</DialogDescription>
       </DialogHeader>
 
-      {order && (
+      {order ? (
         <div className={'space-y-6'}>
           <Table>
             <TableBody>
@@ -112,14 +113,14 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
                       {item.quantity}
                     </TableCell>
                     <TableCell className={'text-right'}>
-                      {(item.princeInCents / 100).toLocaleString('pt-BR', {
+                      {(item.priceInCents / 100).toLocaleString('pt-BR', {
                         style: 'currency',
                         currency: 'BRL',
                       })}
                     </TableCell>
                     <TableCell className={'text-right'}>
                       {(
-                        (item.princeInCents * item.quantity) /
+                        (item.priceInCents * item.quantity) /
                         100
                       ).toLocaleString('pt-BR', {
                         style: 'currency',
@@ -144,6 +145,8 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
             </TableFooter>
           </Table>
         </div>
+      ) : (
+        <OrderDetailsSkeleton />
       )}
     </DialogContent>
   )

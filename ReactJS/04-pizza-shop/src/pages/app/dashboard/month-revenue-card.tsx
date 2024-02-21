@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card.tsx'
+import { MetricCardSkeleton } from '@/pages/app/dashboard/metric-card-skeleton.tsx'
 
 export function MonthRevenueCard() {
   const { data: monthRevenue } = useQuery({
@@ -27,7 +28,7 @@ export function MonthRevenueCard() {
       </CardHeader>
 
       <CardContent className={'space-y-1'}>
-        {monthRevenue && (
+        {monthRevenue ? (
           <CardContent className={'space-y-1'}>
             <span className={'text-2xl font-bold tracking-tight'}>
               {(monthRevenue.receipt / 100).toLocaleString('pt-BR', {
@@ -52,6 +53,8 @@ export function MonthRevenueCard() {
               </p>
             )}
           </CardContent>
+        ) : (
+          <MetricCardSkeleton />
         )}
       </CardContent>
     </Card>
