@@ -10,10 +10,7 @@ test('sign in successfully', async ({ page }) => {
     'Enviamos um link de autenticação para seu e-mail.',
   )
 
-  // Expect a title "to contain" a substring.
-  expect(toast).toBeVisible()
-
-  await page.waitForTimeout(2000)
+  await expect(toast).toBeVisible()
 })
 
 test('sign in with wrong credentials', async ({ page }) => {
@@ -24,8 +21,7 @@ test('sign in with wrong credentials', async ({ page }) => {
 
   const toast = page.getByText('Credenciais inválidas.')
 
-  // Expect a title "to contain" a substring.
-  expect(toast).toBeVisible()
+  await expect(toast).toBeVisible()
 
   await page.waitForTimeout(1000)
 })
@@ -35,6 +31,5 @@ test('navigate to new restaurant page', async ({ page }) => {
 
   await page.getByRole('link', { name: 'Novo estabelecimento' }).click()
 
-  // Expect a title "to contain" a substring.
   expect(page.url()).toContain('/sign-up')
 })

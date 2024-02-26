@@ -41,14 +41,14 @@ export function SignUp() {
         email: data.email,
       })
 
-      toast.success('Restaurante cadastrado com sucesso', {
+      toast.success('Restaurante cadastrado com sucesso.', {
         action: {
           label: 'Login',
           onClick: () => navigate(`/sign-in?email=${data.email}`),
         },
       })
     } catch {
-      toast.success('Erro ao cadastrar restaurante.')
+      toast.error('Erro ao cadastrar restaurante.')
     }
   }
 
