@@ -1,5 +1,3 @@
-import { useRouter } from 'next/router'
-
 import {
   ImageContainer,
   ProductContainer,
@@ -7,7 +5,7 @@ import {
 } from '@/src/styles/pages/product'
 
 export default function Id() {
-  const { query } = useRouter()
+  // const { query } = useRouter()
   return (
     <ProductContainer>
       <ImageContainer></ImageContainer>
