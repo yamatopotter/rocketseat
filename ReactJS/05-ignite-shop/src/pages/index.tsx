@@ -6,7 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Stripe from 'stripe'
 
-import { stripe } from '../lib/stripe'
+import { stripeLib } from '../lib/stripe'
 import { HomeContainer, Product } from '../styles/pages/home'
 
 interface HomeProps {
@@ -29,7 +29,11 @@ export default function Home({ products }: HomeProps) {
     <HomeContainer ref={sliderRef} className={'keen-slider'}>
       {products.map((product) => {
         return (
-          <Link href={`/product/${product.id}`} key={product.id}>
+          <Link
+            href={`/product/${product.id}`}
+            key={product.id}
+            prefetch={false}
+          >
             <Product className={'keen-slider__slide'}>
               <Image src={product.imageUrl} width={520} height={480} alt={''} />
               <footer>
@@ -45,7 +49,7 @@ export default function Home({ products }: HomeProps) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const response = await stripe.products.list({
+  const response = await stripeLib.products.list({
     expand: ['data.default_price'],
   })
 

@@ -1,6 +1,8 @@
+import axios from 'axios'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
 import Stripe from 'stripe'
 
 import {
@@ -9,7 +11,7 @@ import {
   ProductDetails,
 } from '@/src/styles/pages/product'
 
-import { stripe } from '../../lib/stripe'
+import { stripeLib } from '../../lib/stripe'
 
 interface ProductDataProps {
   id: string
@@ -17,6 +19,7 @@ interface ProductDataProps {
   imageUrl: string
   price: string
   description: string
+  defaultPriceId: string
 }
 
 interface ProductProps {
@@ -25,6 +28,24 @@ interface ProductProps {
 
 export default function Product({ product }: ProductProps) {
   const { isFallback } = useRouter()
+  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
+    useState(false)
+
+  async function handleBuyProduct() {
+    try {
+      setIsCreatingCheckoutSession(true)
+      const response = await axios.post('/api/checkout', {
+        priceId: product.defaultPriceId,
+      })
+
+      const { checkoutUrl } = response.data
+
+      window.location.href = checkoutUrl
+    } catch {
+      setIsCreatingCheckoutSession(false)
+      alert('Falha ao redirecionar ao checkout!')
+    }
+  }
 
   if (isFallback) {
     return <p>Loading...</p>
@@ -42,7 +63,9 @@ export default function Product({ product }: ProductProps) {
 
         <p>{product.description}</p>
 
-        <button>Comprar agora</button>
+        <button onClick={handleBuyProduct} disabled={isCreatingCheckoutSession}>
+          Comprar agora
+        </button>
       </ProductDetails>
     </ProductContainer>
   )
@@ -64,7 +87,7 @@ export const getStaticProps: GetStaticProps<
 
   const productId = params.id
 
-  const product = await stripe.products.retrieve(productId, {
+  const product = await stripeLib.products.retrieve(productId, {
     expand: ['default_price'],
   })
 
@@ -79,6 +102,7 @@ export const getStaticProps: GetStaticProps<
       currency: 'BRL',
     }).format(price.unit_amount ? price.unit_amount / 100 : 0),
     description: product.description ? product.description : '',
+    defaultPriceId: price.id,
   }
 
   return {
