@@ -10,13 +10,25 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Event{
-  id Int @id @default(autoincrement())
-  public_id String @default(uuid())
-  title String
-  details String?
-  slug String @unique
-  maximumAttendees Int? @map("maximum_attendees")
+model Event {
+  id               Int        @id @default(autoincrement())
+  public_id        String     @unique @default(uuid())
+  title            String
+  details          String?
+  slug             String     @unique
+  maximumAttendees Int?       @map("maximum_attendees")
+  attendees        Attendee[]
 
   @@map("events")
+}
+
+model Attendee {
+  id            Int      @id @default(autoincrement())
+  name          String
+  email         String
+  createdAt     DateTime @default(now()) @map("created_at")
+  eventPublicId String   @map("event_public_id")
+  event         Event    @relation(fields: [eventPublicId], references: [public_id])
+
+  @@map("attendees")
 }
