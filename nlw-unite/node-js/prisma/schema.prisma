@@ -23,13 +23,26 @@ model Event {
 }
 
 model Attendee {
-  id            Int      @id @default(autoincrement())
-  name          String
-  email         String
-  createdAt     DateTime @default(now()) @map("created_at")
-  eventPublicId String   @map("event_public_id")
-  event         Event    @relation(fields: [eventPublicId], references: [public_id])
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  eventPublicId String @map("event_public_id")
+  event         Event  @relation(fields: [eventPublicId], references: [public_id], onDelete: Cascade)
+
+  checkIn CheckIn?
 
   @@unique([eventPublicId, email])
   @@map("attendees")
+}
+
+model CheckIn {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at")
+
+  attendee   Attendee @relation(fields: [attendeeId], references: [id], onDelete: Cascade)
+  attendeeId Int      @unique @map("attendee_id")
+
+  @@map("check_ins")
 }

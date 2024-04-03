@@ -2,16 +2,19 @@ import {FastifyInstance} from "fastify";
 import {ZodTypeProvider} from "fastify-type-provider-zod";
 import {z} from "zod";
 import {prisma} from "../lib/prisma";
+import {BadRequest} from "./_errors/bad-request";
 
-export async function getEvent(app: FastifyInstance){
+export async function getEvent(app: FastifyInstance) {
     app
         .withTypeProvider<ZodTypeProvider>()
-        .get('/events/:publicId',{
-                schema:{
+        .get('/events/:publicId', {
+                schema: {
+                    summary: 'Get an event',
+                    tags: ['events'],
                     params: z.object({
                         publicId: z.string().uuid()
                     }),
-                    response:{
+                    response: {
                         200: z.object({
                             event: z.object({
                                 id: z.string().uuid(),
@@ -25,39 +28,41 @@ export async function getEvent(app: FastifyInstance){
                     }
                 }
             },
-            async (request, reply) =>{
-            const { publicId} = request.params
+            async (request, reply) => {
+                const {publicId} = request.params
 
-        const event = await prisma.event.findUnique({
-            select:{
-                public_id: true,
-                title: true,
-                slug: true,
-                details: true,
-                maximumAttendees: true,
-                _count:{
-                    select:{
-                        attendees: true
+                const event = await prisma.event.findUnique({
+                    select: {
+                        public_id: true,
+                        title: true,
+                        slug: true,
+                        details: true,
+                        maximumAttendees: true,
+                        _count: {
+                            select: {
+                                attendees: true
+                            }
+                        }
+                    },
+                    where: {
+                        public_id: publicId
                     }
+                })
+
+                if (event == null) {
+                    throw new BadRequest('Event not found.')
                 }
-            },
-           where:{
-               public_id: publicId
-           }
-        })
 
-        if(event==null){
-            throw new Error('Event not found.')
-        }
-
-        return reply.send({event:{
-                id: event.public_id,
-                title: event.title,
-                slug: event.slug,
-                details: event.details,
-                maximumAttendees: event.maximumAttendees,
-                attendeesAmount: event._count.attendees
-            }})
-    }
-)
+                return reply.send({
+                    event: {
+                        id: event.public_id,
+                        title: event.title,
+                        slug: event.slug,
+                        details: event.details,
+                        maximumAttendees: event.maximumAttendees,
+                        attendeesAmount: event._count.attendees
+                    }
+                })
+            }
+        )
 }
