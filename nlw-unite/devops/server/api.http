@@ -1,0 +1,26 @@
+POST http://localhost:3333/events
+Content-Type: application/json
+
+{
+  "title": "NLW Summit",
+  "details": "um evento para quem é apaixonado por programação",
+  "maximumAttendees": 1
+}
+
+###
+
+POST http://localhost:3333/events/428cf063-3786-4495-8109-1de5adaa51ac/attendees
+Content-Type: application/json
+
+{
+  "name": "Matheus Barreto",
+  "email": "matheus2@teste.com"
+}
+
+###
+
+GET http://localhost:3333/events/428cf063-3786-4495-8109-1de5adaa51ac
+
+###
+
+GET http://localhost:3333/attendees/2/badge
